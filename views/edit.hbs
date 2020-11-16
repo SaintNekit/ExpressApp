@@ -1,0 +1,25 @@
+<h1>Edit {{data.title}}</h1>
+
+<form action="/info/edit" method="POST">
+  <div class="input-field">
+    <input id="title" name="title" type="text" class="validate" value="{{data.title}}">
+    <label for="title">Title</label>
+    <span class="helper-text" data-error="enter title" data-success="right"></span>
+  </div>
+
+  <div class="input-field">
+    <input id="price" name="price" type="text" class="validate" value="{{data.price}}">
+    <label for="price">Price</label>
+    <span class="helper-text" data-error="enter price" data-success="right"></span>
+  </div>
+
+  <div class="input-field">
+    <input id="img" name="img" type="text" class="validate" value="{{data.img}}">
+    <label for="img">Image url</label>
+    <span class="helper-text" data-error="add url" data-success="right"></span>
+  </div>
+
+  <input name="id" value="{{data.id}}" type="hidden">
+
+  <button class="btn btn-primary">Edit</button>
+</form>

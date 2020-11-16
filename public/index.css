@@ -1,0 +1,33 @@
+.nav-wrapper {
+  padding: 0 2rem;
+}
+
+.price {
+  font-size: 1.5em;
+  color: red;
+}
+
+.price-text {
+  font-size: 1.5em;
+  color: blue;
+}
+
+.data {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.data img {
+  width: 65%;
+}
+
+.data_price {
+  font-size: 3em;
+}
+
+.card-action {
+  display: flex;
+  justify-content: space-between;
+}

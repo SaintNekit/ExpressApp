@@ -1,0 +1,28 @@
+<h1>Your cart</h1>
+<div id="cart">
+  {{#if data.items.length}}
+  <table>
+    <thead>
+      <tr>
+        <td>Name</td>
+        <td>Count</td>
+        <td>Delete</td>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each data.items}}
+      <tr>
+        <td>{{title}}</td>
+        <td>{{count}}</td>
+        <td>
+          <button class="btn btn-small js-remove" data-id="{{id}}">Delete</button>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <strong><i>Total price: </i></strong><span class="price">{{data.totalPrice}}</span>
+  {{else}}
+  <p>Cart is empty</p>
+  {{/if}}
+</div>
