@@ -1,5 +1,7 @@
+const env = require('dotenv').config();
 const express = require('express');
 const path = require('path');
+const mongoose = require('mongoose');
 const exphbs = require('express-handlebars');
 const homeRoute = require('./routes/home');
 const infoRoute = require('./routes/info');
@@ -27,6 +29,24 @@ app.use('/cart', cartRoute);
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`Server run on port ${PORT}`)
-})
+const start = async () => {
+  try {
+
+    const url = `mongodb+srv://SaintNekit:${env.parsed.PASS}@cluster0.hiuof.mongodb.net/testDB?retryWrites=true&w=majority`;
+
+    await mongoose.connect(url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+    });
+
+    app.listen(PORT, () => {
+      console.log(`Server run on port ${PORT}`)
+    })
+  }
+  catch (err) {
+    console.log(err)
+  }
+};
+
+start();
