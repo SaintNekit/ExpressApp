@@ -1,6 +1,6 @@
-<h1>Your cart</h1>
+<h1>My cart</h1>
 <div id="cart">
-  {{#if data.items.length}}
+  {{#if data.length}}
   <table>
     <thead>
       <tr>
@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each data.items}}
+      {{#each data}}
       <tr>
         <td>{{title}}</td>
         <td>{{count}}</td>
@@ -21,8 +21,13 @@
       {{/each}}
     </tbody>
   </table>
-  <strong><i>Total price: </i></strong><span class="price">{{data.totalPrice}}</span>
-  {{else}}
-  <p>Cart is empty</p>
-  {{/if}}
 </div>
+<div style="display: flex; justify-content: space-between; margin-top: 20px;">
+  <strong><i>Total price: </i><span class="price">{{totalPrice}}</span></strong>
+  <form action="/orders" method="POST">
+    <button type="submit" class="btn blue">Purchase</button>
+  </form>
+</div>
+{{else}}
+<p>Cart is empty</p>
+{{/if}}

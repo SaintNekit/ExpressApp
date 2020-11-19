@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const data = new Schema({
+const dataSchema = new Schema({
   title: {
     type: String,
     required: true
@@ -9,10 +9,22 @@ const data = new Schema({
     type: String,
     required: true
   },
-  img: String
+  img: String,
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
 });
 
-module.exports = model('Data', data);
+dataSchema.method('toClient', function () {
+  const data = this.toObject();
+
+  data.id = data._id;
+  delete data._id;
+  return data;
+})
+
+module.exports = model('Data', dataSchema);
 
 
 // const { v4: uuidv4 } = require('uuid');

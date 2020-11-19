@@ -4,7 +4,7 @@ const Data = require('../models/data');
 const router = Router();
 
 router.get('/', async (req, res, next) => {
-  const data = await Data.find().lean();
+  const data = await Data.find().lean().populate('userId', 'name email');
   res.render('info', {
     title: 'Info page',
     isInfo: true,
@@ -23,7 +23,6 @@ router.get('/:id/edit', async (req, res) => {
 });
 
 router.post("/delete", async (req, res) => {
-  console.log(req.body)
   await Data.deleteOne({ _id: req.body.id });
 
   res.redirect("/info");
