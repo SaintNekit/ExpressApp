@@ -6,7 +6,9 @@ const User = require('../models/user');
 router.get('/login', async (req, res) => {
   res.render('auth/login', {
     title: 'Login page',
-    isLogin: true
+    isLogin: true,
+    registerError: req.flash('registerError'),
+    loginError: req.flash('loginError')
   })
 });
 
@@ -31,11 +33,13 @@ router.post('/login', async (req, res) => {
         })
       }
       else {
-        res.redirect('/auth/login#login')
+        req.flash('loginError', 'Incorect password');
+        res.redirect('/auth/login#login');
       }
     }
     else {
-      res.redirect('/auth/login#login')
+      req.flash('loginError', 'Incorect email');
+      res.redirect('/auth/login#login');
     }
   }
   catch (err) {
@@ -48,7 +52,8 @@ router.post('/register', async (req, res) => {
     const { name, email, password, confirm } = req.body;
     const registeredUser = await User.findOne({ email });
     if (registeredUser) {
-      res.redirect('/auth/login#register')
+      req.flash('registerError', 'email exist');
+      res.redirect('/auth/login#register');
     }
     else {
       const cryptPass = await bcrypt.hash(password, 10);

@@ -1,6 +1,8 @@
 const env = require('dotenv').config();
 const express = require('express');
 const path = require('path');
+const csurf = require('csurf');
+const flash = require('connect-flash');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongodb-session')(session);
@@ -13,7 +15,6 @@ const addRoute = require('./routes/add');
 const cartRoute = require('./routes/cart');
 const orderRoute = require('./routes/orders');
 const authRoute = require('./routes/auth');
-const User = require('./models/user');
 const middleware = require('./middleware/validate');
 const userMiddleware = require('./middleware/user');
 
@@ -43,6 +44,8 @@ app.use(session({
   saveUninitialized: false,
   store
 }));
+app.use(csurf());
+app.use(flash());
 app.use(middleware);
 app.use(userMiddleware);
 

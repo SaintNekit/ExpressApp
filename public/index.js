@@ -28,10 +28,10 @@ document.querySelectorAll('.price').forEach(el => {
 
 const cart = document.querySelector('#cart');
 cart.addEventListener('click', (e) => {
-  e.preventDefault();
   if (e.target.classList.contains('js-remove')) {
-    id = e.target.dataset.id;
-    fetch('/cart/delete/' + id, { method: 'delete' }).then(res => res.json()).then(items => {
+    const id = e.target.dataset.id;
+    const csrf = e.target.dataset.csrf;
+    fetch('/cart/delete/' + id, { method: 'delete', headers: { 'X-XSRF-TOKEN': csrf } }).then(res => res.json()).then(items => {
       if (items.data.length) {
         const html = items.data.map(el => {
           return `
