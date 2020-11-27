@@ -1,3 +1,5 @@
+M.Tabs.init(document.querySelectorAll('.tabs'));
+
 const currency = (price) => {
   return new Intl.NumberFormat('en-EN', {
     currency: 'usd',
@@ -22,7 +24,7 @@ document.querySelectorAll('.date').forEach(el => {
 
 document.querySelectorAll('.price').forEach(el => {
   el.textContent = currency(el.textContent);
-})
+});
 
 const cart = document.querySelector('#cart');
 cart.addEventListener('click', (e) => {
@@ -49,4 +51,4 @@ cart.addEventListener('click', (e) => {
       }
     });
   }
-})
+});

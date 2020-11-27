@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const authRotes = require('../middleware/authRotes');
 const Data = require('../models/data');
 
 const router = Router();
@@ -12,7 +13,7 @@ router.get('/', async (req, res, next) => {
   })
 });
 
-router.get('/:id/edit', async (req, res) => {
+router.get('/:id/edit', authRotes, async (req, res) => {
   !req.query.allow && res.redirect('/');
   const data = await Data.findById(req.params.id).lean();
 
@@ -22,13 +23,13 @@ router.get('/:id/edit', async (req, res) => {
   })
 });
 
-router.post("/delete", async (req, res) => {
+router.post("/delete", authRotes, async (req, res) => {
   await Data.deleteOne({ _id: req.body.id });
 
   res.redirect("/info");
 })
 
-router.post("/edit", async (req, res) => {
+router.post("/edit", authRotes, async (req, res) => {
   const { id } = req.body;
   delete req.body.id;
   await Data.findByIdAndUpdate(id, req.body).lean();

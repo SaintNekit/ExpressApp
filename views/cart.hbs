@@ -21,12 +21,12 @@
       {{/each}}
     </tbody>
   </table>
-</div>
-<div style="display: flex; justify-content: space-between; margin-top: 20px;">
-  <strong><i>Total price: </i><span class="price">{{totalPrice}}</span></strong>
-  <form action="/orders" method="POST">
-    <button type="submit" class="btn blue">Purchase</button>
-  </form>
+  <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+    <strong><i>Total price: </i><span class="price">{{totalPrice}}</span></strong>
+    <form action="/orders" method="POST">
+      <button type="submit" class="btn blue">Purchase</button>
+    </form>
+  </div>
 </div>
 {{else}}
 <p>Cart is empty</p>

@@ -1,0 +1,59 @@
+<div class="auth">
+  <div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s6"><a class="active" href="#login">Log in</a></li>
+        <li class="tab col s6"><a href="#register">Register</a></li>
+      </ul>
+    </div>
+    <div id="login" class="col s6 offset-s3">
+      <H1>Log in</H1>
+      <form action="/auth/login" method="POST">
+        <div class="input-field">
+          <input id="email" name="email" type="email" class="validate" autocomplete="email" required>
+          <label for="email">Email</label>
+          <span class="helper-text" data-error="enter email" data-success="right"></span>
+        </div>
+
+        <div class="input-field">
+          <input id="password" name="password" type="password" class="validate" autocomplete="current-password"
+            required>
+          <label for="password">Password</label>
+          <span class="helper-text" data-error="enter password" data-success="right"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enter</button>
+      </form>
+    </div>
+    <div id="register" class="col s6 offset-s3">
+      <H1>Register</H1>
+      <form action="/auth/register" method="POST">
+        <div class="input-field">
+          <input id="name" name="name" type="text" class="validate" autocomplete="nickname" required>
+          <label for="name">Name</label>
+          <span class="helper-text" data-error="enter nick name" data-success="right"></span>
+        </div>
+
+        <div class="input-field">
+          <input id="remail" name="email" type="email" class="validate" autocomplete="email" required>
+          <label for="remail">Email</label>
+          <span class="helper-text" data-error="enter email" data-success="right"></span>
+        </div>
+
+        <div class="input-field">
+          <input id="rpassword" name="password" type="password" class="validate" autocomplete="new-password" required>
+          <label for="rpassword">Password</label>
+          <span class="helper-text" data-error="enter password" data-success="right"></span>
+        </div>
+
+        <div class="input-field">
+          <input id="confirm" name="confirm" type="password" class="validate" autocomplete="new-password" required>
+          <label for="confirm">Confirm password</label>
+          <span class="helper-text" data-error="confirm password" data-success="right"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+    </div>
+  </div>
+</div>
