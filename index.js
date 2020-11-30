@@ -18,7 +18,8 @@ const authRoute = require('./routes/auth');
 const middleware = require('./middleware/validate');
 const userMiddleware = require('./middleware/user');
 
-const PASS = env.parsed.PASS;
+
+const PASS = process.env.PASS;
 const MONGODB_URI = `mongodb+srv://SaintNekit:${PASS}@cluster0.hiuof.mongodb.net/testDB?retryWrites=true&w=majority`;
 
 const app = express();
