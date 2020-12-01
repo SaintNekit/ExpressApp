@@ -13,6 +13,8 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  token: String,
+  tokenExp: Date,
   cart: {
     data: [
       {

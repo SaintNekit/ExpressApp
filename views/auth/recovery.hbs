@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col s6 offset-s3">
+    {{#if error}}
+    <p class="alert">{{error}}</p>
+    {{/if}}
+    <H1>Password recovery</H1>
+    <form action="/auth/recovery" method="POST">
+      <div class="input-field">
+        <input id="email" name="email" type="email" class="validate" autocomplete="email">
+        <label for="email">Email</label>
+        <span class="helper-text" data-error="enter email" data-success="right"></span>
+      </div>
+
+      <input type="hidden" name="_csrf" value="{{csrf}}">
+
+      <button type="submit" class="btn btn-primary">Recover password</button>
+    </form>
+  </div>
+</div>
