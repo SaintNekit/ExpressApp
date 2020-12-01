@@ -16,7 +16,9 @@
       <div class="card-action">
         <a href="/info/{{_id}}" target="_blank">Open</a>
         {{#if @root.isAuth}}
+        {{#idCheck userId._id @root.userId}}
         <a href="/info/{{_id}}/edit?allow=true">Edit</a>
+        {{/idCheck}}
         <form action="/cart/add" method="POST">
           <input type="hidden" name="id" value="{{_id}}">
           <input type="hidden" name="_csrf" value="{{@root.csrf}}">
