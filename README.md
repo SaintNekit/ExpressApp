@@ -1,3 +1,5 @@
-# Simple express app
 
-To launch app write npm run start or npm run dev
+# ExpressApp
+
+* To launch application you need to set up connection to MongoDB cluster and configure it in root directory index.js file
+

@@ -1,0 +1,35 @@
+<h1>Profile page</h1>
+
+<div class="row">
+  <div class="col s6">
+    {{#if data.avatarUrl}}
+    <img src="/{{data.avatarUrl}}" class="avatar" alt="avatar">
+    {{else}}
+    <p>No avatar</p>
+    {{/if}}
+  </div>
+  <div class="col s6">
+    <form action="/profile" method="POST" enctype="multipart/form-data">
+      <p>Email: <strong>{{data.email}}</strong></p>
+      <div class="input-field">
+        <input id="name" name="name" type="text" class="validate" autocomplete="nickname" required
+          value="{{data.name}}">
+        <label for="name">Name</label>
+        <span class="helper-text" data-error="Enter nick name" data-success="right"></span>
+        <div class="file-field input-field">
+          <div class="btn">
+            <span>Avatar</span>
+            <input type="file" name="avatar">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+          </div>
+        </div>
+
+        <input type="hidden" name="_csrf" value="{{csrf}}">
+
+        <button class="btn blue" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
