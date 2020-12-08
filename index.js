@@ -4,6 +4,8 @@ const path = require('path');
 const csurf = require('csurf');
 const flash = require('connect-flash');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
+const compression = require('compression');
 const session = require('express-session');
 const MongoStore = require('connect-mongodb-session')(session);
 const Handlebars = require('handlebars');
@@ -22,8 +24,8 @@ const profileRoute = require('./routes/profile');
 const fileMiddleware = require('./middleware/file');
 
 
-const PASS = process.env.PASS;
-const MONGODB_URI = `mongodb+srv://SaintNekit:${PASS}@cluster0.hiuof.mongodb.net/testDB?retryWrites=true&w=majority`;
+const MONGO_URI = process.env.MONGO_URI;
+// const MONGODB_URI = `mongodb+srv://SaintNekit:${PASS}@cluster0.hiuof.mongodb.net/testDB?retryWrites=true&w=majority`;
 
 const app = express();
 const hbs = exphbs.create({
@@ -34,7 +36,7 @@ const hbs = exphbs.create({
 });
 const store = new MongoStore({
   collection: 'sessions',
-  uri: MONGODB_URI
+  uri: MONGO_URI
 })
 
 app.engine('hbs', hbs.engine);
@@ -53,6 +55,10 @@ app.use(session({
 app.use(fileMiddleware.single('avatar'));
 app.use(csurf());
 app.use(flash());
+app.use(helmet({
+  contentSecurityPolicy: false,
+}));
+app.use(compression());
 app.use(middleware);
 app.use(userMiddleware);
 
@@ -70,7 +76,7 @@ const PORT = process.env.PORT || 3000;
 
 const start = async () => {
   try {
-    await mongoose.connect(MONGODB_URI, {
+    await mongoose.connect(MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
