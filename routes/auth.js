@@ -1,10 +1,12 @@
 const { Router } = require('express');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const { validationResult } = require('express-validator');
 const mailjet = require('node-mailjet').connect(process.env.MAIL_API_KEY, process.env.MAIL_SECRET_KEY);
 const User = require('../models/user');
 const welcom = require('../emails/welcom');
 const recovery = require('../emails/recovery');
+const { registerValidators, loginValidators } = require('../utils/validators.js');
 
 const router = Router();
 
@@ -108,10 +110,16 @@ router.get('/logout', async (req, res) => {
   req.session.destroy(() => res.redirect('/auth/login#login'))
 })
 
-router.post('/login', async (req, res) => {
+router.post('/login', loginValidators, async (req, res) => {
   try {
     const { email, password } = req.body;
+    const error = validationResult(req);
     const user = await User.findOne({ email });
+
+    if (!error.isEmpty()) {
+      req.flash('loginError', error.array()[0].msg);
+      return res.status(422).redirect('/auth/login#login');
+    }
     if (user) {
       const pass = await bcrypt.compare(password, user.password);
       if (pass) {
@@ -139,22 +147,22 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register', registerValidators, async (req, res) => {
   try {
-    const { name, email, password, confirm } = req.body;
-    const registeredUser = await User.findOne({ email });
-    if (registeredUser) {
-      req.flash('registerError', 'email exist');
-      res.redirect('/auth/login#register');
-    }
-    else {
-      const cryptPass = await bcrypt.hash(password, 10);
-      const user = new User({ name, email, password: cryptPass, cart: { data: [] } });
-      await user.save();
-      res.redirect('/auth/login#login');
+    const { name, email, password } = req.body;
 
-      await mailjet.post("send", { 'version': 'v3.1' }).request(welcom(email, name));
+    const error = validationResult(req);
+    if (!error.isEmpty()) {
+      req.flash('registerError', error.array()[0].msg);
+      return res.status(422).redirect('/auth/login#register');
     }
+
+    const cryptPass = await bcrypt.hash(password, 10);
+    const user = new User({ name, email, password: cryptPass, cart: { data: [] } });
+    await user.save();
+    res.redirect('/auth/login#login');
+    req.flash('loginSuccess', 'Accaunt was successfuly registered');
+    await mailjet.post("send", { 'version': 'v3.1' }).request(welcom(email, name));
   }
   catch (err) {
     console.log(err)

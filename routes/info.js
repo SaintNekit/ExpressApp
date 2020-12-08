@@ -1,5 +1,7 @@
 const { Router } = require('express');
-const authRotes = require('../middleware/authRotes');
+const { validationResult } = require('express-validator');
+const { addValidators } = require('../utils/validators');
+const auth = require('../middleware/auth');
 const Data = require('../models/data');
 
 const router = Router();
@@ -19,7 +21,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/:id/edit', authRotes, async (req, res) => {
+router.get('/:id/edit', auth, async (req, res) => {
   !req.query.allow && res.redirect('/');
   try {
     const data = await Data.findById(req.params.id).lean();
@@ -28,7 +30,8 @@ router.get('/:id/edit', authRotes, async (req, res) => {
 
     res.render('edit', {
       title: `Edit ${data.title}`,
-      data
+      data,
+      error: req.flash('error'),
     })
   }
   catch (err) {
@@ -36,15 +39,22 @@ router.get('/:id/edit', authRotes, async (req, res) => {
   }
 });
 
-router.post("/delete", authRotes, async (req, res) => {
+router.post("/delete", auth, async (req, res) => {
   await Data.deleteOne({ _id: req.body.id, userId: req.user._id });
 
   res.redirect("/info");
 })
 
-router.post("/edit", authRotes, async (req, res) => {
+router.post("/edit", auth, addValidators, async (req, res) => {
+  const { id } = req.body;
+  const error = validationResult(req);
+
+  if (!error.isEmpty()) {
+    req.flash('error', error.array()[0].msg);
+    res.status(422).redirect(`/info/${id}/edit?allow=true`);
+  }
+
   try {
-    const { id } = req.body;
     delete req.body.id;
     await Data.findByIdAndUpdate(id, req.body).lean();
 

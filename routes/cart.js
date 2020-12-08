@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const authRotes = require('../middleware/authRotes');
+const auth = require('../middleware/auth');
 const Data = require('../models/data');
 const router = Router();
 
@@ -9,7 +9,7 @@ const totalPrice = (data) => {
   }, 0)
 }
 
-router.get('/', authRotes, async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     const user = await req.user.populate('cart.data.dataId').execPopulate();
     const data = user.cart.data.map(el => ({ ...el.dataId._doc, id: el.dataId.id, count: el.count }));
@@ -26,7 +26,7 @@ router.get('/', authRotes, async (req, res) => {
   }
 })
 
-router.delete('/delete/:id', authRotes, async (req, res) => {
+router.delete('/delete/:id', auth, async (req, res) => {
   try {
     await req.user.deleteItem(req.params.id);
     const user = await req.user.populate('cart.data.dataId').execPopulate();
@@ -42,7 +42,7 @@ router.delete('/delete/:id', authRotes, async (req, res) => {
   }
 })
 
-router.post('/add', authRotes, async (req, res) => {
+router.post('/add', auth, async (req, res) => {
   const data = await Data.findById(req.body.id);
   await req.user.addData(data);
 

@@ -17,6 +17,9 @@ const orderRoute = require('./routes/orders');
 const authRoute = require('./routes/auth');
 const middleware = require('./middleware/validate');
 const userMiddleware = require('./middleware/user');
+const page404 = require('./middleware/404');
+const profileRoute = require('./routes/profile');
+const fileMiddleware = require('./middleware/file');
 
 
 const PASS = process.env.PASS;
@@ -39,6 +42,7 @@ app.set('view engine', 'hbs');
 app.set('views', 'views');
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/avatars', express.static(path.join(__dirname, 'avatars')));
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
   secret: 'Token',
@@ -46,6 +50,7 @@ app.use(session({
   saveUninitialized: false,
   store
 }));
+app.use(fileMiddleware.single('avatar'));
 app.use(csurf());
 app.use(flash());
 app.use(middleware);
@@ -57,6 +62,9 @@ app.use('/add', addRoute);
 app.use('/cart', cartRoute);
 app.use('/orders', orderRoute);
 app.use('/auth', authRoute);
+app.use('/profile', profileRoute);
+
+app.use(page404);
 
 const PORT = process.env.PORT || 3000;
 
