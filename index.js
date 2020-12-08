@@ -25,7 +25,6 @@ const fileMiddleware = require('./middleware/file');
 
 
 const MONGO_URI = process.env.MONGO_URI;
-// const MONGODB_URI = `mongodb+srv://SaintNekit:${PASS}@cluster0.hiuof.mongodb.net/testDB?retryWrites=true&w=majority`;
 
 const app = express();
 const hbs = exphbs.create({
