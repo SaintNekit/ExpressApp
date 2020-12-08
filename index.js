@@ -23,7 +23,6 @@ const page404 = require('./middleware/404');
 const profileRoute = require('./routes/profile');
 const fileMiddleware = require('./middleware/file');
 
-
 const MONGO_URI = process.env.MONGO_URI;
 
 const app = express();
