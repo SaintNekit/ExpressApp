@@ -3,7 +3,7 @@ module.exports = function (email, name, token) {
     "Messages": [
       {
         "From": {
-          "Email": "stepanovn2706@gmail.com",
+          "Email": process.env.EMAIL,
           "Name": "Saint"
         },
         "To": [

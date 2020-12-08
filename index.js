@@ -47,7 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/avatars', express.static(path.join(__dirname, 'avatars')));
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
-  secret: 'Token',
+  secret: process.env.SECRET_TOKEN,
   resave: false,
   saveUninitialized: false,
   store
